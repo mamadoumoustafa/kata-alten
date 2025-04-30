@@ -1,0 +1,62 @@
+<div class="surface-section py-6 px-4 md:px-6 lg:px-8">
+  <div class="mb-4 pl-3 border-l-4 border-primary">
+    <div class="bg-white text-primary text-2xl font-semibold inline-flex items-center px-2">
+      <i class="pi pi-envelope mr-2 text-2xl"></i>
+      <span class="text-4xl font-semibold text-color-900">Nous contacter</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="p-fluid md:col-8 xl:col-6">
+
+      <div class="field mb-4">
+        <label for="email" class="font-semibold">Adresse email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          required
+          class="p-inputtext p-component"
+        />
+        <ng-container *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.invalid">
+          <small class="text-pink-500" *ngIf="contactForm.get('email')?.errors?.required">
+            Ce champ est requis
+          </small>
+          <small class="text-pink-500" *ngIf="contactForm.get('email')?.errors?.email">
+            Adresse email invalide
+          </small>
+        </ng-container>
+      </div>
+
+      <div class="field mb-4">
+        <label for="message" class="font-semibold">Votre message</label>
+        <textarea
+          id="message"
+          formControlName="message"
+          rows="6"
+          class="p-inputtextarea p-component p-inputtext p-inputtextarea-resizable"
+        ></textarea>
+        <ng-container *ngIf="contactForm.get('message')?.touched && contactForm.get('message')?.invalid">
+          <small class="text-pink-500" *ngIf="contactForm.get('message')?.errors?.required">
+            Ce champ est requis
+          </small>
+          <small class="text-pink-500" *ngIf="contactForm.get('message')?.errors?.maxlength">
+            Message trop long (max 300 caractères)
+          </small>
+        </ng-container>
+        <div class="text-sm mt-1"
+             [ngClass]="{'text-pink-500': remainingChars() < 0, 'text-500': remainingChars() >= 0}">
+          {{ remainingChars() }}
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="contactForm.invalid"
+        class="p-button p-component p-ripple w-auto">
+        <i class="pi pi-send mr-2" aria-hidden="true"></i>
+        <span>Envoyer</span>
+      </button>
+    </form>
+  </div>
+</div>
